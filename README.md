@@ -1,2 +1,1 @@
-# test
-testing
+php image_size_calculation.php
