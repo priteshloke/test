@@ -20,7 +20,7 @@ class MatchImageSize
 
         if ($this->__secondImageSizes['width'] > $this->__firstImageSizes['width']) {
             $newWidth = $this->__firstImageSizes['width'];
-            $newHeight = $this->__secondImageSizes['height'] * $imageratio;
+            $newHeight = round($this->__secondImageSizes['height'] * $imageratio);
         } else {
             return $this->__secondImageSizes;
         }
@@ -35,12 +35,36 @@ class MatchImageSize
             return $this->__firstImageSizes;
         }
 
-        return $this->__secondImageSizes;
+        $imageratio = $this->__secondImageSizes['width'] / $this->__secondImageSizes['height'];
+
+        if ($this->__secondImageSizes['width'] < $this->__firstImageSizes['width']) {
+            $newWidth = round($this->__secondImageSizes['width'] * $imageratio);
+            $newHeight = $this->__firstImageSizes['height'];
+        } else {
+            return $this->__secondImageSizes;
+        }
+
+        return ['width' => $newWidth, 'height' => $newHeight];
     }
 }
 
-$matchImage = new MatchImageSize(['width' => 180, 'height' => 250], ['width' => 360, 'height' => 200]);
-print("containt sizes \n");
-print_r($matchImage->getContaintsSizes());
-print("cover sizes \n");
-print_r($matchImage->getCoverSizes());
+$firstIimageSizes[] = ['width' => 180, 'height' => 250];
+$secondImageSizes[] = ['width' => 360, 'height' => 200];
+
+$firstIimageSizes[] = ['width' => 250, 'height' => 500];
+$secondImageSizes[] = ['width' => 500, 'height' => 90];
+
+$firstIimageSizes[] = ['width' => 1000, 'height' => 500];
+$secondImageSizes[] = ['width' => 500, 'height' => 90];
+
+foreach($firstIimageSizes as $key => $values) {
+    $matchImage = new MatchImageSize($values, $secondImageSizes[$key]);
+    print("containt sizes for second image \n");
+    print_r($matchImage->getContaintsSizes());
+    print("cover sizes for first image \n");
+    print_r($matchImage->getCoverSizes());
+}
+
+
+
+
