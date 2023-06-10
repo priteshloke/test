@@ -16,11 +16,11 @@ class MatchImageSize
             return $this->__firstImageSizes;
         }
 
-        $imageratio = $this->__firstImageSizes['width'] / $this->__firstImageSizes['height'];
+        $imageratio = $this->__secondImageSizes['width'] / $this->__secondImageSizes['height'];
 
         if ($this->__secondImageSizes['width'] > $this->__firstImageSizes['width']) {
             $newWidth = $this->__firstImageSizes['width'];
-            $newHeight = round($this->__secondImageSizes['height'] * $imageratio);
+            $newHeight = round($newWidth / $imageratio);
         } else {
             return $this->__secondImageSizes;
         }
@@ -35,11 +35,13 @@ class MatchImageSize
             return $this->__firstImageSizes;
         }
 
-        $imageratio = $this->__secondImageSizes['width'] / $this->__secondImageSizes['height'];
+        $imageratio = $this->__firstImageSizes['width'] / $this->__firstImageSizes['height'];
 
         if ($this->__secondImageSizes['width'] < $this->__firstImageSizes['width']) {
-            $newWidth = round($this->__secondImageSizes['width'] * $imageratio);
-            $newHeight = $this->__firstImageSizes['height'];
+            // $newWidth = round($this->__secondImageSizes['width'] * $imageratio);
+            // $newHeight = $this->__firstImageSizes['height'];
+            $newWidth = round($this->__secondImageSizes['width'] / 2);
+            $newHeight = round($newWidth / $imageratio);
         } else {
             return $this->__secondImageSizes;
         }
@@ -51,14 +53,17 @@ class MatchImageSize
 $firstIimageSizes[] = ['width' => 180, 'height' => 250];
 $secondImageSizes[] = ['width' => 360, 'height' => 200];
 
-$firstIimageSizes[] = ['width' => 250, 'height' => 500];
-$secondImageSizes[] = ['width' => 500, 'height' => 90];
+// $firstIimageSizes[] = ['width' => 250, 'height' => 500];
+// $secondImageSizes[] = ['width' => 500, 'height' => 90];
 
-$firstIimageSizes[] = ['width' => 1000, 'height' => 500];
-$secondImageSizes[] = ['width' => 500, 'height' => 90];
+// $firstIimageSizes[] = ['width' => 1000, 'height' => 500];
+// $secondImageSizes[] = ['width' => 500, 'height' => 90];
 
 foreach($firstIimageSizes as $key => $values) {
     $matchImage = new MatchImageSize($values, $secondImageSizes[$key]);
+    print("for \n");
+    print_r($values);
+    print_r($secondImageSizes[$key]);
     print("containt sizes for second image \n");
     print_r($matchImage->getContaintsSizes());
     print("cover sizes for first image \n");
